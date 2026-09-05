@@ -1,0 +1,98 @@
+/* Wide desktops keep the default layout (1440–1920px). */
+
+@media (max-width: 1600px) {
+  .dashboard-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 500px);
+  }
+}
+
+@media (max-width: 1440px) {
+  .dashboard-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 460px);
+  }
+
+  .right-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .settings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .display-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1280px) {
+  .brand-subtitle {
+    display: none;
+  }
+
+  .app-header {
+    grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+  }
+
+  .dashboard-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(370px, 420px);
+  }
+
+  .right-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  /* Panels stack gracefully below desktop widths. */
+  .dashboard-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .right-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-grid,
+  .display-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .video-card {
+    min-height: 440px;
+  }
+
+  .video-shell {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 860px) {
+  .app-header {
+    height: auto;
+    padding: 10px 14px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .header-center-status {
+    justify-content: flex-start;
+  }
+
+  .header-actions {
+    justify-content: flex-start;
+  }
+
+  .top-metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .right-pair,
+  .settings-grid,
+  .display-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .count-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
