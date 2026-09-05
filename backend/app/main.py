@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 from .api.routes import router
+from .api.plc import router as plc_router
 from .services.runtime import get_runtime
 
 load_dotenv()
@@ -46,6 +47,7 @@ app.add_middleware(
 )
 
 app.include_router(router)
+app.include_router(plc_router)
 
 
 @app.websocket("/ws/camera/")

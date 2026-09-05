@@ -13,6 +13,7 @@ import numpy as np
 
 from .camera import RealSenseCamera, list_realsense_devices
 from .geometry import LineI, RectI
+from .plc_service import get_plc_service
 from .tracking import AreaTracker, CountEvent, GateCounter, Track
 from .vision import Detection, VisionEngine
 
@@ -147,6 +148,7 @@ class CounterRuntime:
         self.last_mask: Optional[np.ndarray] = None
         self.flash_events: deque[tuple[float, CountEvent]] = deque(maxlen=12)
         self.recent_events: deque[dict[str, Any]] = deque(maxlen=100)
+        self.plc = get_plc_service()
 
     # Camera -----------------------------------------------------------------
 
@@ -195,6 +197,10 @@ class CounterRuntime:
     def shutdown(self) -> None:
         try:
             self.disconnect_camera()
+        except Exception:
+            pass
+        try:
+            self.plc.shutdown()
         except Exception:
             pass
 
@@ -267,6 +273,8 @@ class CounterRuntime:
             self.counter.reset()
             self.flash_events.clear()
             self.recent_events.clear()
+        # clear_setup also resets the existing counter, so mirror that value to PLC.
+        self.plc.submit_count_update(0)
 
     # Counting ---------------------------------------------------------------
 
@@ -297,6 +305,8 @@ class CounterRuntime:
             self.tracker.reset()
             self.flash_events.clear()
             self.recent_events.clear()
+        # Keep PLC current_count/speed state synchronized without blocking the API.
+        self.plc.submit_count_update(0)
 
     # Config -----------------------------------------------------------------
 
@@ -358,6 +368,10 @@ class CounterRuntime:
                             "track_id": event.track_id,
                         }
                     )
+                if events:
+                    # Non-blocking handoff: PLC I/O runs in PLCService's worker thread,
+                    # so RealSense capture/vision/tracking timing is not disturbed.
+                    self.plc.submit_count_update(self.counter.total)
                 self.last_tracks = list(tracks)
             else:
                 self.last_tracks = []
@@ -499,6 +513,7 @@ class CounterRuntime:
                 },
                 "config": config,
                 "recent_events": list(self.recent_events)[:20],
+                "plc": self.plc.status(),
             }
 
             # Nested fields are kept for compatibility with the previous Django API.

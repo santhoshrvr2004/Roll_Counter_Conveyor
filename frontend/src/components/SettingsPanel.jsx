@@ -41,10 +41,11 @@ function Toggle({ checked, onChange }) {
       type="button"
       role="switch"
       aria-checked={checked}
-      className={`toggle ${checked ? 'on' : ''}`}
+      className={`rocker ${checked ? 'is-on' : 'is-off'}`}
       onClick={() => onChange(!checked)}
     >
-      <span className="toggle-thumb" />
+      <span className="rocker-half rocker-half-on">ON</span>
+      <span className="rocker-half rocker-half-off">OFF</span>
     </button>
   );
 }
@@ -77,7 +78,7 @@ export default function SettingsPanel({ config, calibration, setConfigField, pat
 
   return (
     <section className="panel side-card settings-panel">
-      <div className="panel-head">
+     <div className="panel-head">
   <span className="panel-title">
     <SettingsIcon size={15} /> Settings
   </span>
@@ -85,14 +86,14 @@ export default function SettingsPanel({ config, calibration, setConfigField, pat
   {calibration ? (
     <div className="calibration-summary">
       <span className="calibration-summary-item">
-        <small>Calibrated area = </small>
+        <small>Calibrated area</small>
         <strong>
-          {Math.round(calibration.area_px || 0).toLocaleString()} px²,
+          {Math.round(calibration.area_px || 0).toLocaleString()} px²
         </strong>
       </span>
 
       <span className="calibration-summary-item">
-        <small>                 Separation = </small>
+        <small>Separation</small>
         <strong>
           {Number(calibration.separation || 0).toFixed(1)}
         </strong>

@@ -1,0 +1,27 @@
+{
+  "plc": {
+    "enabled": true,
+    "protocol": "modbus_tcp",
+    "host": "192.168.1.100",
+    "port": 502,
+    "slave_id": 1
+  },
+  "addresses": {
+    "start": "D7",
+    "stop": "D8",
+    "speed": "D13",
+    "current_count": "D20",
+    "target_count": "D21"
+  },
+  "speed_control": {
+    "default_speed": 30,
+    "target_count": 500,
+    "slowdown_rules": [
+      { "count": 490, "speed": 20 },
+      { "count": 495, "speed": 15 },
+      { "count": 497, "speed": 10 },
+      { "count": 499, "speed": 5 },
+      { "count": 500, "speed": 0 }
+    ]
+  }
+}

@@ -157,3 +157,28 @@ pytest -q
 ```
 
 Hardware-dependent RealSense opening is intentionally not performed by the unit tests.
+
+## PLC control
+
+PLC support is added as an isolated Modbus TCP service. Existing camera, vision, tracking, calibration, counting, and WebSocket frame behavior remain in place.
+
+Configuration files:
+
+```text
+app/config/plc_config.json
+app/config/plc_config.default.json
+```
+
+PLC APIs:
+
+| Method | URL | Purpose |
+|---|---|---|
+| GET | `/api/plc/config` | Load persisted PLC configuration |
+| PUT | `/api/plc/config` | Validate, merge, and persist PLC configuration |
+| POST | `/api/plc/connect` | Connect using JSON host/port/slave ID |
+| POST | `/api/plc/disconnect` | Disconnect PLC |
+| POST | `/api/plc/start` | Send START command |
+| POST | `/api/plc/stop` | Set speed 0 and send STOP command |
+| POST | `/api/plc/speed` | Set conveyor speed, e.g. `{ "speed": 30 }` |
+
+Install `pymodbus` through the normal requirements file, then see `PLC_INTEGRATION.md` for configuration details, request/response examples, D-register mapping, and automatic slowdown behavior.

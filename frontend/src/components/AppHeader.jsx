@@ -8,14 +8,16 @@ import {
   SettingsIcon,
 } from './Icons';
 
-
-
 export default function AppHeader({
   cameraConnected,
   cameraStatus,
   setupComplete,
   counting,
   onRefresh,
+  plcRunning,
+  onPlcStart,
+  onPlcStop,
+  busy,
 }) {
   return (
     <header className="app-header">
@@ -43,7 +45,7 @@ export default function AppHeader({
       </div>
 
       <div className="header-actions">
-        <button
+        {/* <button
           type="button"
           className="icon-button header-refresh"
           title="Refresh backend status"
@@ -53,9 +55,43 @@ export default function AppHeader({
         </button>
         <div className={`header-camera-state ${cameraConnected ? 'online' : ''}`}>
           <span className="header-status-dot" />
-          <div>
+          {/* <div>
             <strong>{cameraConnected ? 'Camera online' : 'Camera offline'}</strong>
             <small>{cameraStatus || 'Disconnected'}</small>
+          </div> 
+        </div> */}
+        <div
+          className={`plc-rocker ${plcRunning ? 'is-on' : 'is-off'}`}
+          role="group"
+          aria-label="PLC control"
+        >
+          <span className="plc-rocker-label">PLC</span>
+          <div className="plc-rocker-body">
+            <button
+  type="button"
+  className="plc-half plc-half-start"
+  aria-pressed={plcRunning}
+  title="Start PLC"
+  onClick={() => {
+    console.log("START CLICKED");
+    onPlcStart();
+  }}
+>
+  START
+</button>
+
+<button
+  type="button"
+  className="plc-half plc-half-stop"
+  aria-pressed={!plcRunning}
+  title="Stop PLC"
+  onClick={() => {
+    console.log("STOP CLICKED");
+    onPlcStop();
+  }}
+>
+  STOP
+</button>
           </div>
         </div>
       </div>

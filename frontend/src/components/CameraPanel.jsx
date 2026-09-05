@@ -70,7 +70,7 @@ export default function CameraPanel({
         <div className="device-information">
           <span className={`led-dot ${cameraConnected ? 'online' : ''}`} />
           <strong>{cameraStatus || 'Disconnected'}</strong>
-          <span className="device-name" title={selectedDevice}>{selectedDevice}</span>
+           <span className="device-name" title={selectedDevice}>{selectedDevice}</span> 
         </div>
       </div>
     </section>
