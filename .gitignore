@@ -1,6 +1,12 @@
+# Salesforce
+.sf/orgs/
+
+# Python
 backend/.venv/
+__pycache__/
+*.pyc
+
+# Frontend
 frontend/node_modules/
 frontend/dist/
 frontend/.env
-__pycache__/
-*.pyc
